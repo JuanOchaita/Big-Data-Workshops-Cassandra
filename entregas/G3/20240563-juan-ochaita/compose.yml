@@ -1,0 +1,32 @@
+# =============================================================================
+#  Taller Apache Cassandra 5.0 - Big Data, UFM 2026 S2
+#
+#  Parte 2: nodo cassandra2 del cluster del grupo 3 (UFM-G3, dc-g3).
+# =============================================================================
+name: taller-cassandra
+
+services:
+
+  cassandra2:
+    image: cassandra:5.0.8
+    container_name: cassandra2
+    hostname: cassandra2
+    ports:
+      - "7000:7000"   # comunicación entre nodos (gossip)
+      - "9042:9042"   # CQL
+    environment:
+      MAX_HEAP_SIZE: 512M
+      HEAP_NEWSIZE: 128M
+      CASSANDRA_CLUSTER_NAME: UFM-G3
+      CASSANDRA_DC: dc-g3
+      CASSANDRA_RACK: rack1
+      CASSANDRA_ENDPOINT_SNITCH: GossipingPropertyFileSnitch
+      CASSANDRA_BROADCAST_ADDRESS: 100.103.234.103
+      CASSANDRA_BROADCAST_RPC_ADDRESS: 100.103.234.103
+      CASSANDRA_SEEDS: 100.104.232.15
+    volumes:
+      - cassandra2-data:/var/lib/cassandra
+      - ./data:/data:ro
+
+volumes:
+  cassandra2-data:
